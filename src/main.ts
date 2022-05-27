@@ -7,6 +7,7 @@ import { utilities, WinstonModule } from 'nest-winston';
 import winston from 'winston';
 import expressBasicAuth from 'express-basic-auth';
 import { AppModule } from './app.module';
+import { ConfigService } from 'libs/entity/config/configService';
 
 class Application {
   private logger = new Logger(Application.name);
@@ -28,7 +29,8 @@ class Application {
       expressBasicAuth({
         challenge: true,
         users: {
-          acon: '1234',
+          [ConfigService.swaggerAdminAuth().ADMIN_USER]:
+            ConfigService.swaggerAdminAuth().ADMIN_PASSWORD,
         },
       }),
     );
@@ -53,14 +55,16 @@ class Application {
   async bootstrap() {
     SetNestApp(this.server);
     await this.swagger();
-    await this.server.listen(3000);
+    await this.server.listen(ConfigService.appPort());
   }
 
   startLog() {
     if (this.DEV_MODE) {
-      this.logger.log(`✅ Server on http://localhost:3000`);
+      this.logger.log(
+        `✅ Server on http://localhost:${ConfigService.appPort()}`,
+      );
     } else {
-      this.logger.log(`✅ Server on port 3000`);
+      this.logger.log(`✅ Server on port ${ConfigService.appPort()}`);
     }
   }
 }

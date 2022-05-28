@@ -7,8 +7,8 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 dotenv.config();
 
 class SwaggerAdminConfig {
-  readonly ADMIN_USER: string;
-  readonly ADMIN_PASSWORD: string;
+  readonly SWAGGER_ADMIN: string;
+  readonly SWAGGER_PASSWORD: string;
 }
 class DBConfig {
   readonly host: string;
@@ -28,8 +28,8 @@ export class ConfigService {
   }
 
   static swaggerAdminAuth(): SwaggerAdminConfig {
-    const { ADMIN_USER, ADMIN_PASSWORD } = process.env;
-    return { ADMIN_USER, ADMIN_PASSWORD };
+    const { SWAGGER_ADMIN, SWAGGER_PASSWORD } = process.env;
+    return { SWAGGER_ADMIN, SWAGGER_PASSWORD };
   }
 
   static ormConfig(): TypeOrmModuleOptions {

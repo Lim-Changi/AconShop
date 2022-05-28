@@ -21,10 +21,10 @@
     "moduleResolution": "Node",
     "paths": {
       "@app/entity": [
-        "libs/entity/src"
+        "libs/entity"
       ],
       "@app/entity/*": [
-        "libs/entity/src/*"
+        "libs/entity/*"
       ],
       "@app/common": [
         "libs/common"

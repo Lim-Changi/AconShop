@@ -5,6 +5,7 @@ import { HealthCheckController } from './HealthCheck/HealthCheckController';
 import { TerminusModule } from '@nestjs/terminus';
 import { ValidationSchema } from '@app/common/config/validationSchema';
 import { LoggingModule } from '@app/common/logging/logging.module';
+import { getTypeOrmModule } from '@app/entity/getTypeOrmModule';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { LoggingModule } from '@app/common/logging/logging.module';
     HttpModule,
     TerminusModule,
     LoggingModule,
+    getTypeOrmModule(),
   ],
   controllers: [HealthCheckController],
 })

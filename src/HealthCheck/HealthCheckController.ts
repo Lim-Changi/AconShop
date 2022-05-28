@@ -10,7 +10,8 @@ import {
 export class HealthCheckController {
   constructor(
     private health: HealthCheckService,
-    private http: HttpHealthIndicator, // private db: TypeOrmHealthIndicator,
+    private http: HttpHealthIndicator,
+    private db: TypeOrmHealthIndicator,
   ) {}
 
   @Get()
@@ -18,7 +19,7 @@ export class HealthCheckController {
   check() {
     return this.health.check([
       () => this.http.pingCheck('nestjs-axios', 'https://docs.nestjs.com'),
-      // () => this.db.pingCheck('database'),
+      () => this.db.pingCheck('database'),
     ]);
   }
 }

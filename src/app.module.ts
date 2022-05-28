@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { HealthCheckController } from './HealthCheck/HealthCheckController';
 import { TerminusModule } from '@nestjs/terminus';
 import { ValidationSchema } from '@app/common/config/validationSchema';
+import { LoggingModule } from '@app/common/logging/logging.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { ValidationSchema } from '@app/common/config/validationSchema';
     }),
     HttpModule,
     TerminusModule,
+    LoggingModule,
   ],
   controllers: [HealthCheckController],
 })

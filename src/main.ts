@@ -29,8 +29,8 @@ class Application {
       expressBasicAuth({
         challenge: true,
         users: {
-          [ConfigService.swaggerAdminAuth().ADMIN_USER]:
-            ConfigService.swaggerAdminAuth().ADMIN_PASSWORD,
+          [ConfigService.swaggerAdminAuth().SWAGGER_ADMIN]:
+            ConfigService.swaggerAdminAuth().SWAGGER_PASSWORD,
         },
       }),
     );

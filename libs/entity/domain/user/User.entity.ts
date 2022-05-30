@@ -3,6 +3,7 @@ import { Column, Entity, OneToMany } from 'typeorm';
 import { BaseTimeEntity } from '../BaseTimeEntity';
 import { Product } from '../product/Product.entity';
 import { Purchase } from '../purchase/Purchase.entity';
+import { UserRole } from './UserRole';
 
 @Entity()
 export class User extends BaseTimeEntity {
@@ -21,7 +22,7 @@ export class User extends BaseTimeEntity {
   @Column({
     nullable: false,
   })
-  role: string;
+  role: UserRole;
 
   @Column({
     nullable: true,

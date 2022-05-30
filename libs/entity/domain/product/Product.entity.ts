@@ -36,7 +36,7 @@ export class Product extends BaseTimeEntity {
     default: ProductStatus.Pending,
     nullable: false,
   })
-  status: number;
+  status: ProductStatus;
 
   @Column({
     type: 'varchar',

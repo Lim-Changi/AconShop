@@ -12,10 +12,10 @@ export abstract class BaseTimeEntity {
   @PrimaryColumn({ type: 'bigint', transformer: new BigintValueTransformer() })
   id: number;
 
-  @CreateDateColumn({ type: 'timestamptz', nullable: false })
+  @CreateDateColumn({ type: 'timestamp', nullable: false })
   createdAt: Date;
 
-  @UpdateDateColumn({ type: 'timestamptz', nullable: false })
+  @UpdateDateColumn({ type: 'timestamp', nullable: false })
   updatedAt: Date;
 
   getCreatedAt(): LocalDateTime {

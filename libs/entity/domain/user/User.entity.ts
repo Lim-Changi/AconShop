@@ -3,7 +3,7 @@ import { Column, Entity, OneToMany } from 'typeorm';
 import { BaseTimeEntity } from '../BaseTimeEntity';
 import { Product } from '../product/Product.entity';
 import { Purchase } from '../purchase/Purchase.entity';
-import { compare, genSalt, hash } from 'bcrypt';
+import { genSalt, hash } from 'bcrypt';
 
 @Entity()
 export class User extends BaseTimeEntity {

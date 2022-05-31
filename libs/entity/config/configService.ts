@@ -79,4 +79,8 @@ export class ConfigService {
       logging: logging === 'false' ? false : Boolean(logging),
     };
   }
+
+  static jwtSecretKey(): string {
+    return process.env.JWT_SECRET_KEY;
+  }
 }

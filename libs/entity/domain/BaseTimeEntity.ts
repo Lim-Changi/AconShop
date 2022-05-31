@@ -5,7 +5,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { LocalDateTime, nativeJs } from 'js-joda';
-import { BigintValueTransformer } from '@app/entity/domain/transformer/BigintValueTransformer';
+import { BigintValueTransformer } from './transformer/BigintValueTransformer';
 
 export abstract class BaseTimeEntity {
   @Generated('increment')

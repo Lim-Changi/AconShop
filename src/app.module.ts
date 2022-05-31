@@ -6,6 +6,8 @@ import { TerminusModule } from '@nestjs/terminus';
 import { ValidationSchema } from '@app/common/config/validationSchema';
 import { LoggingModule } from '@app/common/logging/logging.module';
 import { getTypeOrmModule } from '@app/entity/getTypeOrmModule';
+import { UserApiModule } from './User/user.api.module';
+import { AuthModule } from './Auth/auth.module';
 
 @Module({
   imports: [
@@ -17,6 +19,8 @@ import { getTypeOrmModule } from '@app/entity/getTypeOrmModule';
     TerminusModule,
     LoggingModule,
     getTypeOrmModule(),
+    UserApiModule,
+    AuthModule,
   ],
   controllers: [HealthCheckController],
 })

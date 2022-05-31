@@ -21,7 +21,7 @@ import { SubmitProductRes } from './dto/SubmitProductRes';
 import { ProductService } from './product.service';
 
 @Controller('product')
-@ApiTags('나라 API')
+@ApiTags('상품 API')
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth('Authorization')
 export class ProductController {

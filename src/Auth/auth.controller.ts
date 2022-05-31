@@ -14,7 +14,7 @@ import { ResponseEntity } from '@app/common/response/ResponseEntity';
 import { BadRequestError } from '@app/common/response/swagger/common/error/BadRequestError';
 import { SignupSuccess } from '@app/common/response/swagger/domain/auth/SignupSuccess';
 import { SignupFail } from '@app/common/response/swagger/domain/auth/SignupFail';
-import { UserAccessToken } from '@app/entity/domain/User/UserAccessToken';
+import { UserAccessToken } from '@app/entity/domain/user/UserAccessToken';
 import { LoginSuccess } from '@app/common/response/swagger/domain/auth/LoginSuccess';
 import { LoginForbiddenFail } from '@app/common/response/swagger/domain/auth/LoginForbiddenFail';
 import { LoginFail } from '@app/common/response/swagger/domain/auth/LoginFail';

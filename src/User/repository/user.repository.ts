@@ -9,8 +9,8 @@ export class UserRepository extends Repository<User> {
       .into(User)
       .values(user)
       .execute();
-
-    return insertQuery.raw[0];
+    user.id = insertQuery.raw.insertId;
+    return user;
   }
 
   async updateLoggedAt(userId: number, loggedAt: Date): Promise<void> {

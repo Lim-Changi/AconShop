@@ -2,7 +2,11 @@ import { SetNestApp } from '@app/common/setNestApp';
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import {
+  DocumentBuilder,
+  SwaggerCustomOptions,
+  SwaggerModule,
+} from '@nestjs/swagger';
 import { utilities, WinstonModule } from 'nest-winston';
 import winston from 'winston';
 import expressBasicAuth from 'express-basic-auth';
@@ -46,10 +50,25 @@ class Application {
       .setTitle('Acon3D - Shop')
       .setDescription('API Document')
       .setVersion('0.0.1')
+      .addBearerAuth(
+        {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+          name: 'JWT',
+          description: 'Enter JWT token',
+          in: 'header',
+        },
+        'Authorization',
+      )
       .build();
-
+    const swaggerCustomOptions: SwaggerCustomOptions = {
+      swaggerOptions: {
+        persistAuthorization: true,
+      },
+    };
     const document = SwaggerModule.createDocument(this.server, options);
-    SwaggerModule.setup('docs', this.server, document);
+    SwaggerModule.setup('docs', this.server, document, swaggerCustomOptions);
   }
 
   async bootstrap() {

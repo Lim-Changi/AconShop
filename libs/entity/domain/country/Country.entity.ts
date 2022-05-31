@@ -20,4 +20,12 @@ export class Country extends BaseTimeEntity {
 
   @OneToMany(() => Product, (product: Product) => product.Country)
   Product: Product[];
+
+  static add(name: string, exchangeRate: number, currency: string): Country {
+    const country = new Country();
+    country.name = name;
+    country.exchangeRate = exchangeRate;
+    country.currency = currency;
+    return country;
+  }
 }

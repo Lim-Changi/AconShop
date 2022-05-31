@@ -30,7 +30,7 @@ export class Product extends BaseTimeEntity {
     nullable: false,
   })
   @JoinColumn({ name: 'country_id', referencedColumnName: 'id' })
-  Country: Country[] | Country | string;
+  Country: Country[] | Country | number;
 
   @Column({
     default: ProductStatus.Pending,
@@ -50,13 +50,30 @@ export class Product extends BaseTimeEntity {
   })
   description: string;
 
-  @Column({
-    type: 'bigint',
+  @Column('decimal', {
+    precision: 12,
+    scale: 2,
     transformer: new BigintValueTransformer(),
     nullable: false,
   })
   price: number;
 
+  @Column('decimal', {
+    precision: 3,
+    scale: 2,
+    nullable: true,
+  })
+  fee: number;
+
   @OneToMany(() => Purchase, (purchase: Purchase) => purchase.Product)
   Purchase: Purchase[];
+
+  static submit(title: string, description: string, price: number): Product {
+    const product = new Product();
+    product.title = title;
+    product.description = description;
+    product.price = price;
+    product.status = ProductStatus.Pending;
+    return product;
+  }
 }

@@ -8,6 +8,7 @@ import { LoggingModule } from '@app/common/logging/logging.module';
 import { getTypeOrmModule } from '@app/entity/getTypeOrmModule';
 import { UserApiModule } from './User/user.api.module';
 import { AuthModule } from './Auth/auth.module';
+import { CountryModule } from './country/country.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { AuthModule } from './Auth/auth.module';
     getTypeOrmModule(),
     UserApiModule,
     AuthModule,
+    CountryModule,
   ],
   controllers: [HealthCheckController],
 })

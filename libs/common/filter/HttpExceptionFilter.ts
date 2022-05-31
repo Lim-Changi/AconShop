@@ -38,7 +38,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
         ? exceptionResponse['message'][0] instanceof CustomValidationError
         : false;
 
-    const errorMessage = isValidationError
+    let errorMessage = isValidationError
       ? '요청 값에 문제가 있습니다.'
       : exceptionResponse instanceof HttpException
       ? exceptionResponse['error']
@@ -46,6 +46,9 @@ export class HttpExceptionFilter implements ExceptionFilter {
       ? exceptionResponse['message']
       : exceptionResponse;
 
+    if (errorMessage === 'Forbidden resource') {
+      errorMessage = 'API 접근 권한이 없습니다.';
+    }
     const commonErrorObject = {
       statusCode: customErrorCode,
       message: errorMessage,

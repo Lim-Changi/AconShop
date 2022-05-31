@@ -4,7 +4,7 @@ import { Expose } from 'class-transformer';
 import { IsNotEmpty, IsString, Matches } from 'class-validator';
 import { UserRole } from '@app/entity/domain/user/UserRole';
 
-export class AuthSignupReq {
+export class AuthSigninReq {
   @ApiProperty({
     example: 'test',
     description: '회원 가입시 입력 받는 아이디입니다.',
@@ -34,7 +34,7 @@ export class AuthSignupReq {
   password: string;
 
   @ApiProperty({
-    enum: UserRole,
+    type: 'int',
     example: UserRole.AUTHOR,
     description:
       '회원 가입시 입력 받는 유저 타입입니다. Customer = 1, Author = 2, Editor = 3',

@@ -9,6 +9,7 @@ import { getTypeOrmModule } from '@app/entity/getTypeOrmModule';
 import { UserApiModule } from './User/user.api.module';
 import { AuthModule } from './Auth/auth.module';
 import { CountryModule } from './country/country.module';
+import { ProductModule } from './product/product.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { CountryModule } from './country/country.module';
     UserApiModule,
     AuthModule,
     CountryModule,
+    ProductModule,
   ],
   controllers: [HealthCheckController],
 })

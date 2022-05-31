@@ -50,13 +50,29 @@ export class Product extends BaseTimeEntity {
   })
   description: string;
 
-  @Column({
-    type: 'bigint',
+  @Column('decimal', {
+    precision: 12,
+    scale: 2,
     transformer: new BigintValueTransformer(),
     nullable: false,
   })
   price: number;
 
+  @Column('decimal', {
+    precision: 3,
+    scale: 2,
+    nullable: true,
+  })
+  fee: number;
+
   @OneToMany(() => Purchase, (purchase: Purchase) => purchase.Product)
   Purchase: Purchase[];
+
+  static submit(title: string, description: string, price: number): Product {
+    const product = new Product();
+    product.title = title;
+    product.description = description;
+    product.price = price;
+    return product;
+  }
 }

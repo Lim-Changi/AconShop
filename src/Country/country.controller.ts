@@ -1,11 +1,15 @@
+import { JwtAuthGuard } from '@app/common/guard/JwtGuard';
+import { RoleGuard } from '@app/common/guard/RoleGuard';
 import { ResponseEntity } from '@app/common/response/ResponseEntity';
 import { BadRequestError } from '@app/common/response/swagger/common/error/BadRequestError';
 import { AddCountryFail } from '@app/common/response/swagger/domain/country/AddCountryFail';
 import { AddCountryForbiddenFail } from '@app/common/response/swagger/domain/country/AddCountryForbiddenFail';
 import { AddCountrySuccess } from '@app/common/response/swagger/domain/country/AddCountrySuccess';
-import { Body, Controller, HttpStatus, Post } from '@nestjs/common';
+import { UserRole } from '@app/entity/domain/user/UserRole';
+import { Body, Controller, HttpStatus, Post, UseGuards } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiCreatedResponse,
   ApiForbiddenResponse,
   ApiInternalServerErrorResponse,
@@ -18,6 +22,9 @@ import { AddCountryRes } from './dto/AddCountryRes';
 
 @Controller('country')
 @ApiTags('나라 API')
+@UseGuards(RoleGuard([UserRole.EDITOR]))
+@UseGuards(JwtAuthGuard)
+@ApiBearerAuth('Authorization')
 export class CountryController {
   constructor(private readonly countryService: CountryService) {}
 

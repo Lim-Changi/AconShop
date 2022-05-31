@@ -34,13 +34,21 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
     const { url, method } = request;
     const isValidationError =
-      exceptionResponse['message'][0] instanceof CustomValidationError;
+      exceptionResponse instanceof HttpException === true
+        ? exceptionResponse['message'][0] instanceof CustomValidationError
+        : false;
+
+    const errorMessage = isValidationError
+      ? '요청 값에 문제가 있습니다.'
+      : exceptionResponse instanceof HttpException
+      ? exceptionResponse['error']
+      : typeof exceptionResponse === 'object'
+      ? exceptionResponse['message']
+      : exceptionResponse;
 
     const commonErrorObject = {
       statusCode: customErrorCode,
-      message: isValidationError
-        ? '요청 값에 문제가 있습니다.'
-        : exceptionResponse['error'],
+      message: errorMessage,
 
       data: isValidationError
         ? this.toCustomValidationErrorByNest(
@@ -54,7 +62,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
     return response.status(httpStatus).json(commonErrorObject);
   }
 
-  toCustomValidationErrorByNest(
+  private toCustomValidationErrorByNest(
     responseBody: CustomValidationError,
     url: string,
     method: string,
@@ -64,7 +72,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
     return responseBody;
   }
 
-  toCustomErrorByNest(url: string, method: string): CustomError {
+  private toCustomErrorByNest(url: string, method: string): CustomError {
     return new CustomError(url, method);
   }
 }

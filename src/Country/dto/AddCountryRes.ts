@@ -1,4 +1,4 @@
-import { CountryPagination } from '@app/entity/domain/country/CountryPagination';
+import { CountryDao } from '@app/entity/domain/country/CountryDao';
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude, Expose } from 'class-transformer';
 
@@ -8,7 +8,7 @@ export class AddCountryRes {
   @Exclude() private readonly _exchangeRate: number;
   @Exclude() private readonly _currency: string;
 
-  constructor(country: CountryPagination) {
+  constructor(country: CountryDao) {
     this._id = country.id;
     this._name = country.name;
     this._exchangeRate = country.exchangeRate;

@@ -12,4 +12,13 @@ export class CountryRepository extends Repository<Country> {
     country.id = insertQuery.raw.insertId;
     return country;
   }
+
+  async getCountryDataByName(countryName: string): Promise<Country> {
+    const selectQuery = createQueryBuilder()
+      .select(['id', 'name', 'exchange_rate', 'currency'])
+      .from(Country, 'country')
+      .where(`country.name =:countryName`, { countryName });
+
+    return await selectQuery.getRawOne();
+  }
 }

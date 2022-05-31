@@ -9,9 +9,10 @@ import { JwtService } from '@nestjs/jwt';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { Logger } from 'winston';
 import { JwtPayload } from '@app/common/guard/JwtPayload';
-import { UserService } from 'src/User/user.service';
+import { UserService } from '../../src/User/user.service';
 import { compare } from 'bcrypt';
 import { UserAccessToken } from '@app/entity/domain/user/UserAccessToken';
+import { UserPayload } from '@app/entity/domain/user/UserPayload';
 
 @Injectable()
 export class AuthService {
@@ -67,12 +68,12 @@ export class AuthService {
     return await compare(password, hashedPassword);
   }
 
-  async validateUser(payload: JwtPayload): Promise<User> {
+  async validateUser(payload: JwtPayload): Promise<UserPayload> {
     const { userId } = payload;
     const user: User = await this.userService.getUser(userId);
     if (!user) {
       throw new UnauthorizedException('요청을 처리할수 없습니다.');
     }
-    return user;
+    return user as UserPayload;
   }
 }

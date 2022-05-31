@@ -30,7 +30,7 @@ export class Product extends BaseTimeEntity {
     nullable: false,
   })
   @JoinColumn({ name: 'country_id', referencedColumnName: 'id' })
-  Country: Country[] | Country | string;
+  Country: Country[] | Country | number;
 
   @Column({
     default: ProductStatus.Pending,
@@ -73,6 +73,7 @@ export class Product extends BaseTimeEntity {
     product.title = title;
     product.description = description;
     product.price = price;
+    product.status = ProductStatus.Pending;
     return product;
   }
 }

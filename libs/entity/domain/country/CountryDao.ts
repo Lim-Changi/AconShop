@@ -1,6 +1,6 @@
 import { Expose } from 'class-transformer';
 
-export class CountryPagination {
+export class CountryDao {
   @Expose({ name: 'id' })
   id: number;
 

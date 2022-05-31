@@ -1,7 +1,11 @@
+import { CurrentUser } from '@app/common/decorator/currentUser.decorator';
 import { JwtAuthGuard } from '@app/common/guard/JwtGuard';
 import { RoleGuard } from '@app/common/guard/RoleGuard';
 import { ResponseEntity } from '@app/common/response/ResponseEntity';
 import { BadRequestError } from '@app/common/response/swagger/common/error/BadRequestError';
+import { SubmitProductFail } from '@app/common/response/swagger/domain/product/SubmitProductFail';
+import { SubmitProductSuccess } from '@app/common/response/swagger/domain/product/SubmitProductSuccess';
+import { UserPayload } from '@app/entity/domain/user/UserPayload';
 import { UserRole } from '@app/entity/domain/user/UserRole';
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import {
@@ -12,6 +16,8 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
+import { SubmitProductReq } from './dto/SubmitProductReq';
+import { SubmitProductRes } from './dto/SubmitProductRes';
 import { ProductService } from './product.service';
 
 @Controller('product')
@@ -30,7 +36,7 @@ export class ProductController {
   })
   @ApiCreatedResponse({
     description: '상품 제출에 성공했습니다.',
-    type: null,
+    type: SubmitProductSuccess,
   })
   @ApiBadRequestResponse({
     description: '입력값을 누락',
@@ -38,13 +44,19 @@ export class ProductController {
   })
   @ApiInternalServerErrorResponse({
     description: '상품 제출에 실패했습니다',
-    type: null,
+    type: SubmitProductFail,
   })
   @UseGuards(RoleGuard([UserRole.AUTHOR]))
   @Post('/submit')
-  async submitProduct(@Body() dto: any): Promise<ResponseEntity<any>> {
+  async submitProduct(
+    @CurrentUser() userDto: UserPayload,
+    @Body() productDto: SubmitProductReq,
+  ): Promise<ResponseEntity<SubmitProductRes>> {
     try {
-      const data = null;
+      const data = await this.productService.submitProduct(
+        productDto.toEntity(),
+        userDto,
+      );
       return ResponseEntity.CREATED_WITH_DATA(
         '상품 제출에 성공했습니다.',
         data,

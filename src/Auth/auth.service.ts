@@ -49,7 +49,7 @@ export class AuthService {
         );
         throw new ForbiddenException('Login Fail');
       }
-      await this.userService.setLoggedAt(loginUser.id, loginUser.loggedAt);
+      await this.userService.setLoggedAt(accountData.id, loginUser.loggedAt);
       const payload: JwtPayload = {
         userId: accountData.id,
       };

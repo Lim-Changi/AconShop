@@ -28,7 +28,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
         ? 'Internal Server Error'
         : exception.message;
 
-    console.log(exceptionResponse);
     const customErrorCode = Object.keys(exceptionResponse).includes('code')
       ? exceptionResponse['code']
       : httpStatus;

@@ -44,6 +44,9 @@ export class AuthService {
           accountData.password,
         )) === false
       ) {
+        this.logger.error(
+          `유저 [${accountData.account}] 의 비밀번호가 올바르지 않습니다`,
+        );
         throw new ForbiddenException('Login Fail');
       }
       await this.userService.setLoggedAt(loginUser.id, loginUser.loggedAt);

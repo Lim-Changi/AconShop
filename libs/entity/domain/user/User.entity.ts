@@ -3,7 +3,7 @@ import { Column, Entity, OneToMany } from 'typeorm';
 import { BaseTimeEntity } from '../BaseTimeEntity';
 import { Product } from '../product/Product.entity';
 import { Purchase } from '../purchase/Purchase.entity';
-import { genSalt, hash } from 'bcrypt';
+import { compare, genSalt, hash } from 'bcrypt';
 
 @Entity()
 export class User extends BaseTimeEntity {
@@ -49,6 +49,14 @@ export class User extends BaseTimeEntity {
     user.account = accountId;
     user.password = await hash(password, salt);
     user.role = role;
+    return user;
+  }
+
+  static login(accountId: string, password: string): User {
+    const user = new User();
+    user.account = accountId;
+    user.password = password;
+    user.loggedAt = new Date();
     return user;
   }
 }

@@ -29,4 +29,13 @@ export class UserRepository extends Repository<User> {
 
     return await selectQuery.getRawOne();
   }
+
+  async loginUser(accountId: string): Promise<User> {
+    const selectQuery = createQueryBuilder()
+      .select(['id', 'password'])
+      .from(User, 'user')
+      .where(`user.account =:accountId`, { accountId });
+
+    return await selectQuery.getRawOne();
+  }
 }

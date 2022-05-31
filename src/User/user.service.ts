@@ -17,4 +17,8 @@ export class UserService {
   async getUser(userId: number): Promise<User> {
     return this.userRepository.getUser(userId);
   }
+
+  async getLoginData(accountId: string): Promise<User> {
+    return this.userRepository.loginUser(accountId);
+  }
 }

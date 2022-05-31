@@ -4,7 +4,6 @@ import { ApiExtraModels, ApiProperty, PickType } from '@nestjs/swagger';
 @ApiExtraModels()
 export class SignupFail extends PickType(InternalServerError, [
   'statusCode',
-  'data',
 ] as const) {
   @ApiProperty({
     type: 'string',

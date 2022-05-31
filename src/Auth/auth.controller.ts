@@ -43,7 +43,7 @@ export class AuthController {
       await this.authService.signup(await dto.toEntity());
       return ResponseEntity.CREATED_WITH('회원 가입에 성공했습니다.');
     } catch (error) {
-      return ResponseEntity.ERROR_WITH('회원 가입에 실패했습니다. >' + error);
+      throw ResponseEntity.ERROR_WITH('회원 가입에 실패했습니다. >> ' + error);
     }
   }
 }

@@ -4,9 +4,9 @@ import {
   ExceptionFilter,
   HttpException,
   HttpStatus,
+  ValidationError,
 } from '@nestjs/common';
 import { Response } from 'express';
-import { ValidationError } from 'class-validator';
 import CustomValidationError from '@app/common/filter/CustomValidationError';
 import CustomError from '@app/common/filter/CustomError';
 
@@ -33,33 +33,35 @@ export class HttpExceptionFilter implements ExceptionFilter {
       : httpStatus;
 
     const { url, method } = request;
-
-    const isValidationError = exceptionResponse instanceof ValidationError;
+    const isValidationError =
+      exceptionResponse['message'][0] instanceof CustomValidationError;
 
     const commonErrorObject = {
-      error:
-        typeof exceptionResponse === 'string'
-          ? exceptionResponse
-          : exceptionResponse['message'] === undefined
-          ? exceptionResponse['error']
-          : exceptionResponse['message'],
-
-      code: customErrorCode,
+      statusCode: customErrorCode,
+      message: isValidationError
+        ? '요청 값에 문제가 있습니다.'
+        : exceptionResponse['error'],
 
       data: isValidationError
-        ? [this.toCustomValidationErrorByNest(exceptionResponse, url, method)]
+        ? this.toCustomValidationErrorByNest(
+            exceptionResponse['message'][0],
+            url,
+            method,
+          )
         : this.toCustomErrorByNest(url, method),
     };
-    console.log(exception);
+
     return response.status(httpStatus).json(commonErrorObject);
   }
 
   toCustomValidationErrorByNest(
-    responseBody: ValidationError,
+    responseBody: CustomValidationError,
     url: string,
     method: string,
   ): CustomValidationError {
-    return new CustomValidationError(responseBody, url, method);
+    responseBody.setUrl(url);
+    responseBody.setMethod(method);
+    return responseBody;
   }
 
   toCustomErrorByNest(url: string, method: string): CustomError {

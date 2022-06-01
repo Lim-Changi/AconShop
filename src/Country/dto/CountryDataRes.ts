@@ -2,7 +2,7 @@ import { CountryDao } from '@app/entity/domain/country/CountryDao';
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude, Expose } from 'class-transformer';
 
-export class AddCountryRes {
+export class CountryDataRes {
   @Exclude() private readonly _id: number;
   @Exclude() private readonly _name: string;
   @Exclude() private readonly _exchangeRate: number;

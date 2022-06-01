@@ -5,20 +5,30 @@ import { BadRequestError } from '@app/common/response/swagger/common/error/BadRe
 import { AddCountryFail } from '@app/common/response/swagger/domain/country/AddCountryFail';
 import { AddCountryForbiddenFail } from '@app/common/response/swagger/domain/country/AddCountryForbiddenFail';
 import { AddCountrySuccess } from '@app/common/response/swagger/domain/country/AddCountrySuccess';
+import { GetAllCountryFail } from '@app/common/response/swagger/domain/country/GetAllCountryFail';
+import { GetAllCountrySuccess } from '@app/common/response/swagger/domain/country/GetAllCountrySuccess';
 import { UserRole } from '@app/entity/domain/user/UserRole';
-import { Body, Controller, HttpStatus, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpStatus,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
   ApiCreatedResponse,
   ApiForbiddenResponse,
   ApiInternalServerErrorResponse,
+  ApiOkResponse,
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
 import { CountryService } from './country.service';
 import { AddCountryReq } from './dto/AddCountryReq';
-import { AddCountryRes } from './dto/AddCountryRes';
+import { CountryDataRes } from './dto/CountryDataRes';
 
 @Controller('country')
 @ApiTags('나라 API')
@@ -54,9 +64,9 @@ export class CountryController {
   @Post()
   async addCountry(
     @Body() dto: AddCountryReq,
-  ): Promise<ResponseEntity<AddCountryRes>> {
+  ): Promise<ResponseEntity<CountryDataRes>> {
     try {
-      const data: AddCountryRes = await this.countryService.addCountry(
+      const data: CountryDataRes = await this.countryService.addCountry(
         await dto.toEntity(),
       );
       return ResponseEntity.CREATED_WITH_DATA(
@@ -68,6 +78,34 @@ export class CountryController {
         throw ResponseEntity.FORBIDDEN_WITH(e.message);
 
       throw ResponseEntity.ERROR_WITH('나라 추가에 실패했습니다. >> ' + e);
+    }
+  }
+
+  @ApiOperation({
+    summary: '전체 나라 조회',
+    description: `
+    저장되어 있는 모든 나라 데이터 정보를 조회합니다.
+    `,
+  })
+  @ApiOkResponse({
+    description: '전체 나라 조회에 성공했습니다.',
+    type: GetAllCountrySuccess,
+  })
+  @ApiInternalServerErrorResponse({
+    description: '전체 나라 조회에 실패했습니다',
+    type: GetAllCountryFail,
+  })
+  @Get()
+  async getAllCountries(): Promise<ResponseEntity<CountryDataRes[]>> {
+    try {
+      const data: CountryDataRes[] =
+        await this.countryService.getAllCountryData();
+      return ResponseEntity.OK_WITH_DATA(
+        '전체 나라 조회에 성공했습니다.',
+        data,
+      );
+    } catch (e) {
+      throw ResponseEntity.ERROR_WITH('전체 나라 조회에 실패했습니다. >> ' + e);
     }
   }
 }

@@ -21,4 +21,12 @@ export class CountryRepository extends Repository<Country> {
 
     return await selectQuery.getRawOne();
   }
+
+  async getAllCountryData(): Promise<Country[]> {
+    const selectQuery = createQueryBuilder()
+      .select(['id', 'name', 'exchange_rate', 'currency'])
+      .from(Country, 'country');
+
+    return await selectQuery.getRawMany();
+  }
 }

@@ -10,5 +10,7 @@ module.exports = {
     '^@app/entity/(.*)$': '<rootDir>/libs/entity/$1',
     '^@app/common/(.*)$': '<rootDir>/libs/common/$1',
     '^@app/util/(.*)$': '<rootDir>/libs/util/$1',
+    '^@test/(.*)$': '<rootDir>/__test__/$1',
+    '^@tools/(.*)$': '<rootDir>/__test__/tools/$1',
   },
 };

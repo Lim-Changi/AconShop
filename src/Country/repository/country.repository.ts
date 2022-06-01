@@ -27,7 +27,8 @@ export class CountryRepository extends Repository<Country> {
   async getAllCountryData(): Promise<Country[]> {
     const selectQuery = createQueryBuilder()
       .select(['id', 'name', 'exchange_rate', 'currency'])
-      .from(Country, 'country');
+      .from(Country, 'country')
+      .limit(1000);
 
     return await selectQuery.getRawMany();
   }
@@ -46,7 +47,8 @@ export class CountryRepository extends Repository<Country> {
       .from(Country, 'country')
       .leftJoin('country.Product', 'product')
       .where(`country.id =:countryId`, { countryId })
-      .andWhere(`product.status =:status`, { status: ProductStatus.Success });
+      .andWhere(`product.status =:status`, { status: ProductStatus.Success })
+      .limit(1000);
 
     return selectQuery.getRawMany();
   }

@@ -13,7 +13,7 @@ describe('Country API', () => {
       .post('/country')
       .set('Authorization', `Bearer ${null}`)
       .send({
-        name: null,
+        name: randomString(5),
         exchangeRate: 0.12345,
         currency: '₩',
       });

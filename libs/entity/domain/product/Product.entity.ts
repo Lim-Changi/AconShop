@@ -76,4 +76,37 @@ export class Product extends BaseTimeEntity {
     product.status = ProductStatus.Pending;
     return product;
   }
+
+  static review(
+    productId: number,
+    title?: string,
+    description?: string,
+    price?: number,
+    fee?: number,
+    status?: ProductStatus,
+  ): Product {
+    const product = new Product();
+    product.id = productId;
+    if (title) product.title = title;
+    if (description) product.description = description;
+    if (price) product.price = price;
+    if (fee) product.fee = fee;
+    if (status) product.status = status;
+
+    return product;
+  }
+
+  static addForeign(
+    productId: number,
+    countryId: number,
+    title: string,
+    description: string,
+  ): Product {
+    const product = new Product();
+    product.id = productId;
+    product.Country = countryId.toString();
+    product.title = title;
+    product.description = description;
+    return product;
+  }
 }

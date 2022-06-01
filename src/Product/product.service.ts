@@ -1,5 +1,4 @@
 import { Product } from '@app/entity/domain/product/Product.entity';
-import { ProductJoinCountryDao } from '@app/entity/domain/product/dao/ProductJoinCountryDao';
 import { UserPayload } from '@app/entity/domain/user/dao/UserPayload';
 import { Injectable } from '@nestjs/common';
 import { snakeToCamel } from 'libs/util/snake-camel-converter';
@@ -8,6 +7,8 @@ import { GetPendingProductRes } from './dto/GetPendingProductRes';
 import { SubmitProductRes } from './dto/SubmitProductRes';
 import { ProductRepository } from './repository/product.repository';
 import { ProductDao } from '@app/entity/domain/product/dao/ProductDao';
+import { ProductDataRes } from './dto/ProductDataRes';
+import { ProductSubmitDao } from '@app/entity/domain/product/dao/ProductSubmitDao';
 
 @Injectable()
 export class ProductService {
@@ -29,7 +30,7 @@ export class ProductService {
 
       const newProduct = (await this.productRepository.submitProduct(
         product,
-      )) as unknown as ProductJoinCountryDao;
+      )) as unknown as ProductSubmitDao;
       return new SubmitProductRes(newProduct);
     } catch (e) {
       throw e;
@@ -42,6 +43,22 @@ export class ProductService {
       return snakeToCamel(pendingProduct).map(
         (product) => new GetPendingProductRes(product as unknown as ProductDao),
       );
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  async reviewProduct(
+    product: Product,
+    user: UserPayload,
+  ): Promise<ProductDataRes> {
+    try {
+      console.log(product);
+      await this.productRepository.reviewProduct(product, user.id);
+      const updatedProduct = await this.productRepository.getProductById(
+        product.id,
+      );
+      return new ProductDataRes(snakeToCamel(updatedProduct));
     } catch (e) {
       throw e;
     }

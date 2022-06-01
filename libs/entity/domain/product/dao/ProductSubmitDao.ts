@@ -1,7 +1,8 @@
 import { Expose } from 'class-transformer';
+import { CountryDao } from '../../country/dao/CountryDao';
 import { ProductStatus } from '../ProductStatusType';
 
-export class ProductJoinCountryDao {
+export class ProductSubmitDao {
   @Expose({ name: 'id' })
   id: string;
 
@@ -15,7 +16,7 @@ export class ProductJoinCountryDao {
   description: string;
 
   @Expose({ name: 'authorId' })
-  authorId: string;
+  Author: string;
 
   @Expose({ name: 'editorId' })
   editorId: number;
@@ -26,15 +27,6 @@ export class ProductJoinCountryDao {
   @Expose({ name: 'fee' })
   fee: number;
 
-  @Expose({ name: 'countryId' })
-  countryId: number;
-
-  @Expose({ name: 'name' })
-  name: string;
-
-  @Expose({ name: 'exchangeRate' })
-  exchangeRate: number;
-
-  @Expose({ name: 'currency' })
-  currency: string;
+  @Expose({ name: 'country' })
+  Country: CountryDao;
 }

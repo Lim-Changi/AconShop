@@ -5,11 +5,22 @@ import { ResponseEntity } from '@app/common/response/ResponseEntity';
 import { BadRequestError } from '@app/common/response/swagger/common/error/BadRequestError';
 import { GetPendingProductFail } from '@app/common/response/swagger/domain/product/GetPendingProductFail';
 import { GetPendingProductSuccess } from '@app/common/response/swagger/domain/product/GetPendingProductSuccess';
+import { ReviewProductBadRquestFail } from '@app/common/response/swagger/domain/product/ReviewProductBadRequestFail';
+import { ReviewProductFail } from '@app/common/response/swagger/domain/product/ReviewProductFail';
+import { ReviewProductSuccess } from '@app/common/response/swagger/domain/product/ReviewProductSuccess';
 import { SubmitProductFail } from '@app/common/response/swagger/domain/product/SubmitProductFail';
 import { SubmitProductSuccess } from '@app/common/response/swagger/domain/product/SubmitProductSuccess';
 import { UserPayload } from '@app/entity/domain/user/dao/UserPayload';
 import { UserRole } from '@app/entity/domain/user/dao/UserRole';
-import { Body, Controller, Get, Post, Put, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpStatus,
+  Post,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
@@ -20,9 +31,12 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { GetPendingProductRes } from './dto/GetPendingProductRes';
+import { ReviewProductReq } from './dto/ReviewProductReq';
+import { ProductDataRes } from './dto/ProductDataRes';
 import { SubmitProductReq } from './dto/SubmitProductReq';
 import { SubmitProductRes } from './dto/SubmitProductRes';
 import { ProductService } from './product.service';
+import { AddForiegnProductReq } from './dto/AddForeignProductReq';
 
 @Controller('product')
 @ApiTags('상품 API')
@@ -103,32 +117,41 @@ export class ProductController {
   @ApiOperation({
     summary: '상품 검토 및 수정',
     description: `
-    검토 대기중인 상품을 검토 및 수정합니다. \n
-    상품의 제목, 본문, 가격, 수수료, 검토 상태를 수정할 수 있습니다.
+    검토 대기중인 상품을 검토 및 수정합니다.\n
+    상품의 제목, 본문, 가격, 수수료, 검토 상태를 수정할 수 있습니다.\n
     검토 상태를 성공으로 수정시, 수수료를 입력해야만 합니다.
     `,
   })
   @ApiCreatedResponse({
     description: '상품 검토 및 수정에 성공했습니다.',
-    type: SubmitProductSuccess,
+    type: ReviewProductSuccess,
+  })
+  @ApiBadRequestResponse({
+    description: '입력 데이터가 비정상입니다.',
+    type: ReviewProductBadRquestFail,
   })
   @ApiInternalServerErrorResponse({
     description: '상품 검토 및 수정에 실패했습니다',
-    type: SubmitProductFail,
+    type: ReviewProductFail,
   })
   @UseGuards(RoleGuard([UserRole.EDITOR]))
   @Put('/review')
   async reviewPendingProduct(
     @CurrentUser() userDto: UserPayload,
-    @Body() productDto,
-  ): Promise<ResponseEntity<GetPendingProductRes[]>> {
+    @Body() productDto: ReviewProductReq,
+  ): Promise<ResponseEntity<ProductDataRes>> {
     try {
-      const data = await this.productService.getPendingProduct();
+      const data = await this.productService.reviewProduct(
+        productDto.toEntity(),
+        userDto,
+      );
       return ResponseEntity.CREATED_WITH_DATA(
         '상품 검토 및 수정에 성공했습니다.',
         data,
       );
     } catch (e) {
+      if (e.status === HttpStatus.BAD_REQUEST)
+        throw ResponseEntity.BAD_REQUEST_WITH(e.message);
       throw ResponseEntity.ERROR_WITH(
         '상품 검토 및 수정에 실패했습니다. >> ' + e,
       );
@@ -141,32 +164,32 @@ export class ProductController {
     검토가 완료된 상품의 타 국가정보를 추가합니다. \n
     상품ID(대한민국 기준), 국가ID, 번역된 제목, 본문 총 네가지를 입력받습니다. \n
     누락된 값이 존재하면 오류를 반환합니다. \n
-    존재하지 않는 상품ID, 대한민국 상품이 아닌 ID, 존재하지 않는 국가ID 의 경우 오류를 반환합니다.
+    존재하지 않는 상품ID, 검증이 끝나지 않은 상품ID, 대한민국 상품이 아닌 ID, 존재하지 않는 국가ID 의 경우 오류를 반환합니다.
     `,
   })
   @ApiCreatedResponse({
-    description: '상품 타국가정보 추가에 성공했습니다.',
+    description: '상품 타 국가정보 추가에 성공했습니다.',
     type: SubmitProductSuccess,
   })
   @ApiInternalServerErrorResponse({
-    description: '상품 타국가정보 추가에 실패했습니다',
+    description: '상품 타 국가정보 추가에 실패했습니다',
     type: SubmitProductFail,
   })
   @UseGuards(RoleGuard([UserRole.EDITOR]))
   @Post('/foreign')
   async addForeignProduct(
     @CurrentUser() userDto: UserPayload,
-    @Body() productDto,
-  ): Promise<ResponseEntity<GetPendingProductRes[]>> {
+    @Body() productDto: AddForiegnProductReq,
+  ): Promise<ResponseEntity<ProductDataRes>> {
     try {
-      const data = await this.productService.getPendingProduct();
+      const data = null;
       return ResponseEntity.CREATED_WITH_DATA(
-        '상품 타국가정보 추가에 성공했습니다.',
+        '상품 타 국가정보 추가에 성공했습니다.',
         data,
       );
     } catch (e) {
       throw ResponseEntity.ERROR_WITH(
-        '상품 타국가정보 추가에 실패했습니다. >> ' + e,
+        '상품 타 국가정보 추가에 실패했습니다. >> ' + e,
       );
     }
   }
@@ -188,11 +211,10 @@ export class ProductController {
     description: '나라별 상품 조회에 실패했습니다',
     type: SubmitProductFail,
   })
-  @UseGuards(RoleGuard([UserRole.EDITOR]))
   @Get()
-  async getCountryProduct(): Promise<ResponseEntity<GetPendingProductRes[]>> {
+  async getCountryProduct(): Promise<ResponseEntity<ProductDataRes[]>> {
     try {
-      const data = await this.productService.getPendingProduct();
+      const data = null;
       return ResponseEntity.CREATED_WITH_DATA(
         '나라별 상품 조회에 성공했습니다.',
         data,

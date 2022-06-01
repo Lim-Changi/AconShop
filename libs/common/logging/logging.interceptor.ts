@@ -13,7 +13,7 @@ export class LoggingInterceptor implements NestInterceptor {
   constructor(private logger: Logger) {}
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    const { method, url, body } = context.getArgByIndex(0);
+    const { method, url } = context.getArgByIndex(0);
     this.logger.log(`Request to ${method} ${url}`);
 
     return next

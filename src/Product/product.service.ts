@@ -10,7 +10,6 @@ import { ProductDao } from '@app/entity/domain/product/dao/ProductDao';
 import { ProductDataRes } from './dto/ProductDataRes';
 import { ProductSubmitDao } from '@app/entity/domain/product/dao/ProductSubmitDao';
 import { ProductStatus } from '@app/entity/domain/product/ProductStatusType';
-import { ProductJoinCountryDao } from '@app/entity/domain/product/dao/ProductJoinCountryDao';
 
 @Injectable()
 export class ProductService {

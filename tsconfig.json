@@ -19,6 +19,8 @@
     "noFallthroughCasesInSwitch": false,
     "esModuleInterop": true,
     "moduleResolution": "Node",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "paths": {
       "@app/entity": [
         "libs/entity"

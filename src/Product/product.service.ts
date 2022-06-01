@@ -10,6 +10,7 @@ import { ProductDao } from '@app/entity/domain/product/dao/ProductDao';
 import { ProductDataRes } from './dto/ProductDataRes';
 import { ProductSubmitDao } from '@app/entity/domain/product/dao/ProductSubmitDao';
 import { ProductStatus } from '@app/entity/domain/product/ProductStatusType';
+import { ProductJoinCountryDao } from '@app/entity/domain/product/dao/ProductJoinCountryDao';
 
 @Injectable()
 export class ProductService {
@@ -107,6 +108,19 @@ export class ProductService {
       );
 
       return new ProductDataRes(snakeToCamel(newForeignProduct));
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  async getCountryProduct(countryId: number): Promise<ProductDataRes[]> {
+    try {
+      const countryProduct = await this.countryService.getCountryProduct(
+        countryId,
+      );
+      return countryProduct.map(
+        (product) => new ProductDataRes(snakeToCamel(product)),
+      );
     } catch (e) {
       throw e;
     }

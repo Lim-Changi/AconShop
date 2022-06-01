@@ -1,5 +1,6 @@
 import { Country } from '@app/entity/domain/country/Country.entity';
 import { CountryDao } from '@app/entity/domain/country/dao/CountryDao';
+import { ProductJoinCountryDao } from '@app/entity/domain/product/dao/ProductJoinCountryDao';
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { snakeToCamel } from 'libs/util/snake-camel-converter';
 import { CountryDataRes } from './dto/CountryDataRes';
@@ -43,6 +44,14 @@ export class CountryService {
   async getCountryData(countryId: number): Promise<Country> {
     try {
       return await this.countryRepository.getCountryData(countryId);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  async getCountryProduct(countryId: number): Promise<ProductJoinCountryDao[]> {
+    try {
+      return await this.countryRepository.getCountryProduct(countryId);
     } catch (e) {
       throw e;
     }

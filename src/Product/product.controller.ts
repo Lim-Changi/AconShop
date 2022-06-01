@@ -17,6 +17,7 @@ import {
   Controller,
   Get,
   HttpStatus,
+  Param,
   Post,
   Put,
   UseGuards,
@@ -28,6 +29,7 @@ import {
   ApiInternalServerErrorResponse,
   ApiOkResponse,
   ApiOperation,
+  ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
 import { GetPendingProductRes } from './dto/GetPendingProductRes';
@@ -40,6 +42,9 @@ import { AddForiegnProductReq } from './dto/AddForeignProductReq';
 import { AddForeignProductSuccess } from '@app/common/response/swagger/domain/product/AddForeignProductSuccess';
 import { AddForeignProductBadRquestFail } from '@app/common/response/swagger/domain/product/AddForeignProductBadRequestFail';
 import { AddForeignProductFail } from '@app/common/response/swagger/domain/product/AddForeignProductFail';
+import { GetCountryProductReq } from './dto/GetCountryProductReq';
+import { GetCountryProductFail } from '@app/common/response/swagger/domain/product/GetCountryProductFail';
+import { GetCountryProductSuccess } from '@app/common/response/swagger/domain/product/GetCountryProductSuccess';
 
 @Controller('product')
 @ApiTags('상품 API')
@@ -214,19 +219,27 @@ export class ProductController {
     존재하지 않는 국가ID 의 경우 오류를 반환합니다.
     `,
   })
-  @ApiCreatedResponse({
+  @ApiOkResponse({
     description: '나라별 상품 조회에 성공했습니다.',
-    type: SubmitProductSuccess,
+    type: GetCountryProductSuccess,
+  })
+  @ApiBadRequestResponse({
+    description: '입력값을 누락',
+    type: BadRequestError,
   })
   @ApiInternalServerErrorResponse({
     description: '나라별 상품 조회에 실패했습니다',
-    type: SubmitProductFail,
+    type: GetCountryProductFail,
   })
-  @Get()
-  async getCountryProduct(): Promise<ResponseEntity<ProductDataRes[]>> {
+  @Get('/:country_id')
+  async getCountryProduct(
+    @Param() param: GetCountryProductReq,
+  ): Promise<ResponseEntity<ProductDataRes[]>> {
     try {
-      const data = null;
-      return ResponseEntity.CREATED_WITH_DATA(
+      const data = await this.productService.getCountryProduct(
+        Number(param.country_id),
+      );
+      return ResponseEntity.OK_WITH_DATA(
         '나라별 상품 조회에 성공했습니다.',
         data,
       );

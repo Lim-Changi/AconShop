@@ -18,7 +18,7 @@ export class ProductJoinCountryDao {
   authorId: string;
 
   @Expose({ name: 'editorId' })
-  editorId: number;
+  editorId: string;
 
   @Expose({ name: 'price' })
   price: number;

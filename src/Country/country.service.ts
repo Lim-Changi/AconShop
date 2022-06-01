@@ -39,4 +39,12 @@ export class CountryService {
       throw e;
     }
   }
+
+  async getCountryData(countryId: number): Promise<Country> {
+    try {
+      return await this.countryRepository.getCountryData(countryId);
+    } catch (e) {
+      throw e;
+    }
+  }
 }

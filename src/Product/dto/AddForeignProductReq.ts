@@ -15,7 +15,7 @@ export class AddForiegnProductReq {
   product_id: number;
 
   @ApiProperty({
-    example: 2,
+    example: 14,
     description: '타 국가ID 입니다.',
     required: true,
   })

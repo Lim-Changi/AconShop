@@ -1,3 +1,4 @@
+import { ProductJoinCountryDao } from '@app/entity/domain/product/dao/ProductJoinCountryDao';
 import { Product } from '@app/entity/domain/product/Product.entity';
 import { ProductStatus } from '@app/entity/domain/product/ProductStatusType';
 import { createQueryBuilder, EntityRepository, Repository } from 'typeorm';
@@ -33,7 +34,7 @@ export class ProductRepository extends Repository<Product> {
       .execute();
   }
 
-  async getProductById(productId: number): Promise<Product> {
+  async getProductById(productId: number): Promise<ProductJoinCountryDao> {
     const selectQuery = createQueryBuilder()
       .from(Product, 'product')
       .leftJoin('product.Country', 'country')

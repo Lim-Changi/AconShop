@@ -29,4 +29,13 @@ export class CountryRepository extends Repository<Country> {
 
     return await selectQuery.getRawMany();
   }
+
+  async getCountryData(countryId: number): Promise<Country> {
+    const selectQuery = createQueryBuilder()
+      .select(['id', 'name', 'exchange_rate', 'currency'])
+      .from(Country, 'country')
+      .where(`country.id =:countryId`, { countryId });
+
+    return await selectQuery.getRawOne();
+  }
 }

@@ -37,6 +37,9 @@ import { SubmitProductReq } from './dto/SubmitProductReq';
 import { SubmitProductRes } from './dto/SubmitProductRes';
 import { ProductService } from './product.service';
 import { AddForiegnProductReq } from './dto/AddForeignProductReq';
+import { AddForeignProductSuccess } from '@app/common/response/swagger/domain/product/AddForeignProductSuccess';
+import { AddForeignProductBadRquestFail } from '@app/common/response/swagger/domain/product/AddForeignProductBadRequestFail';
+import { AddForeignProductFail } from '@app/common/response/swagger/domain/product/AddForeignProductFail';
 
 @Controller('product')
 @ApiTags('상품 API')
@@ -164,16 +167,21 @@ export class ProductController {
     검토가 완료된 상품의 타 국가정보를 추가합니다. \n
     상품ID(대한민국 기준), 국가ID, 번역된 제목, 본문 총 네가지를 입력받습니다. \n
     누락된 값이 존재하면 오류를 반환합니다. \n
-    존재하지 않는 상품ID, 검증이 끝나지 않은 상품ID, 대한민국 상품이 아닌 ID, 존재하지 않는 국가ID 의 경우 오류를 반환합니다.
+    존재하지 않는 상품ID, 검증이 끝나지 않은 상품ID, 대한민국 상품이 아닌 경우,
+    존재하지 않는 국가ID 의 경우, 국가 ID 대상이 대한민국인 경우, 400 오류를 반환합니다.
     `,
   })
   @ApiCreatedResponse({
     description: '상품 타 국가정보 추가에 성공했습니다.',
-    type: SubmitProductSuccess,
+    type: AddForeignProductSuccess,
+  })
+  @ApiBadRequestResponse({
+    description: '입력 데이터가 비정상입니다.',
+    type: AddForeignProductBadRquestFail,
   })
   @ApiInternalServerErrorResponse({
     description: '상품 타 국가정보 추가에 실패했습니다',
-    type: SubmitProductFail,
+    type: AddForeignProductFail,
   })
   @UseGuards(RoleGuard([UserRole.EDITOR]))
   @Post('/foreign')
@@ -182,7 +190,10 @@ export class ProductController {
     @Body() productDto: AddForiegnProductReq,
   ): Promise<ResponseEntity<ProductDataRes>> {
     try {
-      const data = null;
+      const data = await this.productService.addForeignProduct(
+        productDto.toEntity(),
+        userDto,
+      );
       return ResponseEntity.CREATED_WITH_DATA(
         '상품 타 국가정보 추가에 성공했습니다.',
         data,

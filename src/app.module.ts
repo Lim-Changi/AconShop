@@ -10,6 +10,7 @@ import { UserApiModule } from './User/user.api.module';
 import { AuthModule } from './Auth/auth.module';
 import { CountryApiModule } from './Country/country.api.module';
 import { ProductApiModule } from './Product/product.api.module';
+import { PurchaseApiModule } from './Purchase/purchase.api.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { ProductApiModule } from './Product/product.api.module';
     UserApiModule,
     ProductApiModule,
     CountryApiModule,
+    PurchaseApiModule,
     HttpModule,
     TerminusModule,
     LoggingModule,

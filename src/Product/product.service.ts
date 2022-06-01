@@ -125,4 +125,14 @@ export class ProductService {
       throw e;
     }
   }
+
+  async getProductById(productId: number): Promise<ProductDataRes> {
+    try {
+      return new ProductDataRes(
+        snakeToCamel(await this.productRepository.getProductById(productId)),
+      );
+    } catch (e) {
+      throw e;
+    }
+  }
 }

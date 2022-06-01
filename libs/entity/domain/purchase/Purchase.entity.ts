@@ -19,4 +19,10 @@ export class Purchase extends BaseTimeEntity {
   })
   @JoinColumn({ name: 'product_id', referencedColumnName: 'id' })
   Product: Product[] | Product | string;
+
+  static create(productId: number) {
+    const purchase = new Purchase();
+    purchase.Product = productId.toString();
+    return purchase;
+  }
 }

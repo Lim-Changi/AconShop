@@ -1,6 +1,6 @@
 import { ApiExtraModels, ApiProperty, PickType } from '@nestjs/swagger';
 import { CreatedSuccess } from '@app/common/response/swagger/common/CreatedSuccess';
-import { AddCountryRes } from '../../../../../../src/Country/dto/AddCountryRes';
+import { CountryDataRes } from 'src/Country/dto/CountryDataRes';
 
 @ApiExtraModels()
 export class AddCountrySuccess extends PickType(CreatedSuccess, [
@@ -15,7 +15,7 @@ export class AddCountrySuccess extends PickType(CreatedSuccess, [
   message: string;
 
   @ApiProperty({
-    type: AddCountryRes,
+    type: CountryDataRes,
     title: '성공 데이터',
     example: {
       id: 1,
@@ -25,5 +25,5 @@ export class AddCountrySuccess extends PickType(CreatedSuccess, [
     },
     description: '나라 추가에 성공했습니다.',
   })
-  data: AddCountryRes;
+  data: CountryDataRes;
 }

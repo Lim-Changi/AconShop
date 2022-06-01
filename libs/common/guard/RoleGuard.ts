@@ -1,4 +1,4 @@
-import { UserRole } from '@app/entity/domain/user/UserRole';
+import { UserRole } from '@app/entity/domain/user/dao/UserRole';
 import { CanActivate, ExecutionContext, mixin, Type } from '@nestjs/common';
 
 export const RoleGuard = (userRoles: UserRole[]): Type<CanActivate> => {

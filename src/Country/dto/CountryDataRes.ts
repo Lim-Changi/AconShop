@@ -1,4 +1,4 @@
-import { CountryDao } from '@app/entity/domain/country/CountryDao';
+import { CountryDao } from '@app/entity/domain/country/dao/CountryDao';
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude, Expose } from 'class-transformer';
 
@@ -9,7 +9,7 @@ export class CountryDataRes {
   @Exclude() private readonly _currency: string;
 
   constructor(country: CountryDao) {
-    this._id = country.id;
+    this._id = Number(country.id);
     this._name = country.name;
     this._exchangeRate = country.exchangeRate;
     this._currency = country.currency;

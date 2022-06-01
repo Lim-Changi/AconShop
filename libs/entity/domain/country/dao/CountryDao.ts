@@ -2,7 +2,7 @@ import { Expose } from 'class-transformer';
 
 export class CountryDao {
   @Expose({ name: 'id' })
-  id: number;
+  id: string;
 
   @Expose({ name: 'name' })
   name: string;

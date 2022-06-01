@@ -1,5 +1,6 @@
 import { createQueryBuilder, EntityRepository, Repository } from 'typeorm';
 import { Country } from '@app/entity/domain/country/Country.entity';
+import { ProductJoinCountryDao } from '@app/entity/domain/product/dao/ProductJoinCountryDao';
 
 @EntityRepository(Country)
 export class CountryRepository extends Repository<Country> {
@@ -28,5 +29,23 @@ export class CountryRepository extends Repository<Country> {
       .from(Country, 'country');
 
     return await selectQuery.getRawMany();
+  }
+
+  async getCountryData(countryId: number): Promise<Country> {
+    const selectQuery = createQueryBuilder()
+      .select(['id', 'name', 'exchange_rate', 'currency'])
+      .from(Country, 'country')
+      .where(`country.id =:countryId`, { countryId });
+
+    return await selectQuery.getRawOne();
+  }
+
+  async getCountryProduct(countryId: number): Promise<ProductJoinCountryDao[]> {
+    const selectQuery = createQueryBuilder()
+      .from(Country, 'country')
+      .leftJoin('country.Product', 'product')
+      .where(`country.id =:countryId`, { countryId });
+
+    return selectQuery.getRawMany();
   }
 }

@@ -14,7 +14,7 @@ export class Product extends BaseTimeEntity {
     nullable: false,
   })
   @JoinColumn({ name: 'author_id', referencedColumnName: 'id' })
-  Author: User[] | User | number;
+  Author: User[] | User | string;
 
   @ManyToOne(() => User, (user: User) => user.ProductInspect, {
     onDelete: 'CASCADE',
@@ -22,7 +22,7 @@ export class Product extends BaseTimeEntity {
     nullable: true,
   })
   @JoinColumn({ name: 'editor_id', referencedColumnName: 'id' })
-  Editor: User[] | User | number;
+  Editor: User[] | User | string;
 
   @ManyToOne(() => Country, (country: Country) => country.Product, {
     onDelete: 'CASCADE',
@@ -30,7 +30,7 @@ export class Product extends BaseTimeEntity {
     nullable: false,
   })
   @JoinColumn({ name: 'country_id', referencedColumnName: 'id' })
-  Country: Country[] | Country | number;
+  Country: Country[] | Country | string;
 
   @Column({
     default: ProductStatus.Pending,
@@ -74,6 +74,39 @@ export class Product extends BaseTimeEntity {
     product.description = description;
     product.price = price;
     product.status = ProductStatus.Pending;
+    return product;
+  }
+
+  static review(
+    productId: number,
+    title?: string,
+    description?: string,
+    price?: number,
+    fee?: number,
+    status?: ProductStatus,
+  ): Product {
+    const product = new Product();
+    product.id = productId;
+    if (title) product.title = title;
+    if (description) product.description = description;
+    if (price) product.price = price;
+    if (fee) product.fee = fee;
+    if (status) product.status = status;
+
+    return product;
+  }
+
+  static addForeign(
+    productId: number,
+    countryId: number,
+    title: string,
+    description: string,
+  ): Product {
+    const product = new Product();
+    product.id = productId;
+    product.Country = countryId.toString();
+    product.title = title;
+    product.description = description;
     return product;
   }
 }

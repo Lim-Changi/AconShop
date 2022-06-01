@@ -7,7 +7,7 @@ import { AddCountryForbiddenFail } from '@app/common/response/swagger/domain/cou
 import { AddCountrySuccess } from '@app/common/response/swagger/domain/country/AddCountrySuccess';
 import { GetAllCountryFail } from '@app/common/response/swagger/domain/country/GetAllCountryFail';
 import { GetAllCountrySuccess } from '@app/common/response/swagger/domain/country/GetAllCountrySuccess';
-import { UserRole } from '@app/entity/domain/user/UserRole';
+import { UserRole } from '@app/entity/domain/user/dao/UserRole';
 import {
   Body,
   Controller,

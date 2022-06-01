@@ -34,6 +34,12 @@
       "@app/common/*": [
         "libs/common/*"
       ],
+      "@app/util": [
+        "libs/util"
+      ],
+      "@app/util/*": [
+        "libs/util/*"
+      ],
     },
   }
 }

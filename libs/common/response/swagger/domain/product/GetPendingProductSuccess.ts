@@ -1,5 +1,5 @@
 import { ApiExtraModels, ApiProperty, PickType } from '@nestjs/swagger';
-import { GetPendingProductRes } from 'src/Product/dto/GetPendingProductRes';
+import { GetPendingProductRes } from '../../../../../../src/Product/dto/GetPendingProductRes';
 import { OkSuccess } from '../../common/OkSuccess';
 
 @ApiExtraModels()

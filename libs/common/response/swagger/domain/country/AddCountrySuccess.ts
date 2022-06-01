@@ -1,6 +1,6 @@
 import { ApiExtraModels, ApiProperty, PickType } from '@nestjs/swagger';
 import { CreatedSuccess } from '@app/common/response/swagger/common/CreatedSuccess';
-import { CountryDataRes } from 'src/Country/dto/CountryDataRes';
+import { CountryDataRes } from '../../../../../../src/Country/dto/CountryDataRes';
 
 @ApiExtraModels()
 export class AddCountrySuccess extends PickType(CreatedSuccess, [

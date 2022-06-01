@@ -11,7 +11,7 @@ import { utilities, WinstonModule } from 'nest-winston';
 import winston from 'winston';
 import expressBasicAuth from 'express-basic-auth';
 import { AppModule } from './app.module';
-import { ConfigService } from 'libs/entity/config/configService';
+import { ConfigService } from '@app/entity/config/configService';
 
 class Application {
   private logger = new Logger(Application.name);

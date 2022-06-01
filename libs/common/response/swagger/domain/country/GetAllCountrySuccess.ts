@@ -1,5 +1,5 @@
 import { ApiExtraModels, ApiProperty, PickType } from '@nestjs/swagger';
-import { CountryDataRes } from 'src/Country/dto/CountryDataRes';
+import { CountryDataRes } from '../../../../../../src/Country/dto/CountryDataRes';
 import { OkSuccess } from '../../common/OkSuccess';
 
 @ApiExtraModels()

@@ -2,7 +2,7 @@ import { ProductStatus } from '@app/entity/domain/product/ProductStatusType';
 import { Purchase } from '@app/entity/domain/purchase/Purchase.entity';
 import { UserPayload } from '@app/entity/domain/user/dao/UserPayload';
 import { ForbiddenException, Injectable } from '@nestjs/common';
-import { ProductService } from 'src/Product/product.service';
+import { ProductService } from '../../src/Product/product.service';
 import { PurchaseRepository } from './repository/purchase.repository';
 
 @Injectable()

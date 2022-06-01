@@ -1,4 +1,4 @@
-import { ProductJoinCountryDao } from '@app/entity/domain/product/ProductJoinCountryDao';
+import { ProductJoinCountryDao } from '@app/entity/domain/product/dao/ProductJoinCountryDao';
 import { ProductStatus } from '@app/entity/domain/product/ProductStatusType';
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude, Expose } from 'class-transformer';
@@ -15,7 +15,7 @@ export class SubmitProductRes {
   @Exclude() private readonly _currency: string;
 
   constructor(productJoinCountryDao: ProductJoinCountryDao) {
-    this._id = productJoinCountryDao.id;
+    this._id = Number(productJoinCountryDao.id);
     this._status = productJoinCountryDao.status;
     this._title = productJoinCountryDao.title;
     this._description = productJoinCountryDao.description;

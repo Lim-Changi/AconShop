@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { User } from '@app/entity/domain/user/User.entity';
 import { Expose } from 'class-transformer';
 import { IsNotEmpty, IsString, Matches } from 'class-validator';
-import { UserRole } from '@app/entity/domain/user/UserRole';
+import { UserRole } from '@app/entity/domain/user/dao/UserRole';
 
 export class AuthSignupReq {
   @ApiProperty({

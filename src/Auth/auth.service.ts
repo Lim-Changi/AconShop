@@ -11,8 +11,8 @@ import { Logger } from 'winston';
 import { JwtPayload } from '@app/common/guard/JwtPayload';
 import { UserService } from '../../src/User/user.service';
 import { compare } from 'bcrypt';
-import { UserAccessToken } from '@app/entity/domain/user/UserAccessToken';
-import { UserPayload } from '@app/entity/domain/user/UserPayload';
+import { UserAccessToken } from '@app/entity/domain/user/dao/UserAccessToken';
+import { UserPayload } from '@app/entity/domain/user/dao/UserPayload';
 
 @Injectable()
 export class AuthService {

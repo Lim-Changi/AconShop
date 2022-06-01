@@ -11,7 +11,7 @@ export class Purchase extends BaseTimeEntity {
     nullable: false,
   })
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
-  User: User[] | User | number;
+  User: User[] | User | string;
 
   @ManyToOne(() => Product, (product: Product) => product.Purchase, {
     onDelete: 'CASCADE',

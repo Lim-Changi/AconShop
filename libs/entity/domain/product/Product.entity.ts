@@ -14,7 +14,7 @@ export class Product extends BaseTimeEntity {
     nullable: false,
   })
   @JoinColumn({ name: 'author_id', referencedColumnName: 'id' })
-  Author: User[] | User | number;
+  Author: User[] | User | string;
 
   @ManyToOne(() => User, (user: User) => user.ProductInspect, {
     onDelete: 'CASCADE',
@@ -22,7 +22,7 @@ export class Product extends BaseTimeEntity {
     nullable: true,
   })
   @JoinColumn({ name: 'editor_id', referencedColumnName: 'id' })
-  Editor: User[] | User | number;
+  Editor: User[] | User | string;
 
   @ManyToOne(() => Country, (country: Country) => country.Product, {
     onDelete: 'CASCADE',
@@ -30,7 +30,7 @@ export class Product extends BaseTimeEntity {
     nullable: false,
   })
   @JoinColumn({ name: 'country_id', referencedColumnName: 'id' })
-  Country: Country[] | Country | number;
+  Country: Country[] | Country | string;
 
   @Column({
     default: ProductStatus.Pending,

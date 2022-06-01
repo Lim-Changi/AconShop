@@ -3,8 +3,6 @@ import { JwtAuthGuard } from '@app/common/guard/JwtGuard';
 import { RoleGuard } from '@app/common/guard/RoleGuard';
 import { ResponseEntity } from '@app/common/response/ResponseEntity';
 import { BadRequestError } from '@app/common/response/swagger/common/error/BadRequestError';
-import { SubmitProductFail } from '@app/common/response/swagger/domain/product/SubmitProductFail';
-import { SubmitProductSuccess } from '@app/common/response/swagger/domain/product/SubmitProductSuccess';
 import { PurchaseProductFail } from '@app/common/response/swagger/domain/purchase/PurchaseProductFail';
 import { PurchaseProductForbiddenFail } from '@app/common/response/swagger/domain/purchase/PurchaseProductForbiddenFail';
 import { PurchaseProductSuccess } from '@app/common/response/swagger/domain/purchase/PurchaseProductSuccess';

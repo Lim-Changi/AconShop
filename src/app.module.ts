@@ -11,6 +11,7 @@ import { AuthModule } from './Auth/auth.module';
 import { CountryApiModule } from './Country/country.api.module';
 import { ProductApiModule } from './Product/product.api.module';
 import { PurchaseApiModule } from './Purchase/purchase.api.module';
+import { SwaggerResponseController } from './SwaggerCommon/swagger.controller';
 
 @Module({
   imports: [
@@ -28,6 +29,6 @@ import { PurchaseApiModule } from './Purchase/purchase.api.module';
     getTypeOrmModule(),
     AuthModule,
   ],
-  controllers: [HealthCheckController],
+  controllers: [HealthCheckController, SwaggerResponseController],
 })
 export class AppModule {}

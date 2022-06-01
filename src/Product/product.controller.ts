@@ -29,7 +29,6 @@ import {
   ApiInternalServerErrorResponse,
   ApiOkResponse,
   ApiOperation,
-  ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
 import { GetPendingProductRes } from './dto/GetPendingProductRes';

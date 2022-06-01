@@ -4,7 +4,6 @@ import {
   ExceptionFilter,
   HttpException,
   HttpStatus,
-  ValidationError,
 } from '@nestjs/common';
 import { Response } from 'express';
 import CustomValidationError from '@app/common/filter/CustomValidationError';

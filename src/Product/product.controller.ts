@@ -1,4 +1,4 @@
-import { CurrentUser } from '@app/common/decorator/currentUser.decorator';
+import { CurrentUser } from '@app/common/decorator/CurrentUser.decorator';
 import { JwtAuthGuard } from '@app/common/guard/JwtGuard';
 import { RoleGuard } from '@app/common/guard/RoleGuard';
 import { ResponseEntity } from '@app/common/response/ResponseEntity';

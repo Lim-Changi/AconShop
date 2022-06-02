@@ -1,0 +1,17 @@
+version: '3.7'
+
+services:
+  acon:
+    container_name: acon
+    restart: unless-stopped
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      labels:
+        - acon
+    env_file:
+      - .env
+    ports:
+      - 8000:8000
+    working_dir: /app/acon
+

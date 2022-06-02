@@ -127,6 +127,10 @@ export class ProductService {
 
   async getProductById(productId: number): Promise<ProductDataRes> {
     try {
+      const product = await this.productRepository.getProductById(productId);
+      if (!product) {
+        return null;
+      }
       return new ProductDataRes(
         snakeToCamel(await this.productRepository.getProductById(productId)),
       );

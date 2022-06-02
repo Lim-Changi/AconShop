@@ -188,7 +188,7 @@ describe('Product API', () => {
       expect(res.body.data.title).toBe(newTitle);
       expect(res.body.data.description).toBe(newDescription);
       expect(Math.floor(res.body.data.price)).toBe(newPrice);
-      expect(res.body.data.fee).toBe(newFee.toString());
+      expect(compareDecimal(res.body.data.fee, newFee)).toBe(true);
       expect(res.body.data.status).toBe(ProductStatus.Success);
     });
     it('상품 검토 상태를 성공으로 수정시, 수수료를 입력하지 않으면 400 에러반환', async () => {
@@ -318,7 +318,6 @@ describe('Product API', () => {
           title: 'Title',
           description: 'Description',
         });
-      console.log(res.body);
       expect(res.statusCode).toBe(400);
     });
     it('검토가 끝나지 않은 상품ID 입력시, 400 에러 반환', async () => {
@@ -365,7 +364,6 @@ describe('Product API', () => {
           title: 'Title',
           description: 'Description',
         });
-      console.log(res.body);
       expect(res.statusCode).toBe(400);
     });
     it('존재하지 않는 국가ID을 입력한 경우, 400 에러 반환', async () => {
@@ -477,7 +475,6 @@ describe('Product API', () => {
       const testProduct = (
         await createTestProduct(1, testAuthor.id, koreaId)
       )[0];
-      console.log(editorAccessToken);
       const newFee = Number(Math.random().toFixed(2));
 
       await request(app.getHttpServer())

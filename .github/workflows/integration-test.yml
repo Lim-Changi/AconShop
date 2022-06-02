@@ -57,7 +57,7 @@ jobs:
         run: apk add mysql-client
 
       - name: Initialize RDB MySQL
-        run: mysql -h rdb -u root -paconpassword
+        run: mysql -h rdb -u root -paconpassword < .github/scripts/test_db_init.sql
 
       - name: Setup Node Environment
         run: npm ci

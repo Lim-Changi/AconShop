@@ -1,4 +1,6 @@
 
+CREATE DATABASE  IF NOT EXISTS `acon_shop` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
+USE `acon_shop`;
 --
 -- Table structure for table `country`
 --

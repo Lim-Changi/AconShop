@@ -10,25 +10,25 @@ jobs:
     container: node:16-alpine
     env:
       NODE_ENV: CI
-      PORT: ${{ secrets.PORT}} 
-      SWAGGER_ADMIN: ${{ secrets.SWAGGER_ADMIN}} 
-      SWAGGER_PASSWORD: ${{ secrets.SWAGGER_PASSWORD}} 
-      DB_HOST: ${{ secrets.DB_HOST}} 
-      DB_PORT: ${{ secrets.DB_PORT}} 
-      DB_NAME: ${{ secrets.DB_NAME}} 
-      DB_USERNAME: ${{ secrets.DB_USERNAME}} 
-      DB_PASSWORD: ${{ secrets.DB_PASSWORD}} 
-      SYNCHRONIZE: ${{ secrets.SYNCHRONIZE}} 
-      LOGGING: ${{ secrets.LOGGING}} 
-      DB_LOCAL_HOST: ${{ secrets.DB_LOCAL_HOST}} 
-      DB_LOCAL_PORT: ${{ secrets.DB_LOCAL_PORT}}
-      DB_LOCAL_NAME: ${{ secrets.DB_LOCAL_NAME}} 
-      DB_LOCAL_USERNAME: ${{ secrets.DB_LOCAL_USERNAME}} 
-      DB_LOCAL_PASSWORD: ${{ secrets.DB_LOCAL_PASSWORD}} 
-      LOCAL_SYNCHRONIZE: ${{ secrets.LOCAL_SYNCHRONIZE}} 
-      LOCAL_LOGGING: ${{ secrets.LOCAL_LOGGING}} 
-      DB_CONNECTION_TIMEOUT: ${{ secrets.DB_CONNECTION_TIMEOUT}} 
-      JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY}} 
+      PORT: ${{ secrets.PORT }} 
+      SWAGGER_ADMIN: ${{ secrets.SWAGGER_ADMIN }} 
+      SWAGGER_PASSWORD: ${{ secrets.SWAGGER_PASSWORD }} 
+      DB_HOST: ${{ secrets.DB_HOST }} 
+      DB_PORT: ${{ secrets.DB_PORT }} 
+      DB_NAME: ${{ secrets.DB_NAME }} 
+      DB_USERNAME: ${{ secrets.DB_USERNAME }} 
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }} 
+      SYNCHRONIZE: ${{ secrets.SYNCHRONIZE }} 
+      LOGGING: ${{ secrets.LOGGING }}
+      DB_LOCAL_HOST: rdb
+      DB_LOCAL_PORT: 3306
+      DB_LOCAL_NAME: ${{ secrets.DB_LOCAL_NAME }} 
+      DB_LOCAL_USERNAME: root
+      DB_LOCAL_PASSWORD: aconpassword
+      LOCAL_SYNCHRONIZE: ${{ secrets.LOCAL_SYNCHRONIZE }} 
+      LOCAL_LOGGING: ${{ secrets.LOCAL_LOGGING }} 
+      DB_CONNECTION_TIMEOUT: ${{ secrets.DB_CONNECTION_TIMEOUT }} 
+      JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }} 
       
       
 

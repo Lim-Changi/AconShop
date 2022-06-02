@@ -109,5 +109,5 @@ CREATE TABLE `purchase` (
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
-INSERT INTO `country` (`id`,`name`,`exchange_rate`,`currency`) VALUES (`대한민국`, 1, `₩`);
+INSERT INTO `country` (`id`,`name`,`exchange_rate`,`currency`) VALUES (1, `대한민국`, 1, `₩`);
 

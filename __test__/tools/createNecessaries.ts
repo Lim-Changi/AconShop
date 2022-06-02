@@ -21,7 +21,12 @@ export const createTestUser = async (
       testUser.account = randomString(5);
       testUser.password = await hash(password, salt);
       testUser.role = role;
-      await createQueryBuilder().insert().into(User).values(testUser).execute();
+      const insertQuery = await createQueryBuilder()
+        .insert()
+        .into(User)
+        .values(testUser)
+        .execute();
+      testUser.id = insertQuery.raw.insertId;
       testUser.password = password;
       testUsers.push(testUser);
     });
@@ -43,8 +48,13 @@ export const createTestCountry = async (count = 1): Promise<Country[]> => {
       testCountry.name = randomString(5);
       testCountry.exchangeRate = Number((Math.random() * 10).toFixed(5));
       testCountry.currency = randomString(1, true);
+      const insertQuery = await createQueryBuilder()
+        .insert()
+        .into(Country)
+        .values(testCountry)
+        .execute();
+      testCountry.id = insertQuery.raw.insertId;
       testCountries.push(testCountry);
-      createQueryBuilder().insert().into(Country).values(testCountry).execute();
     });
   }
   await Promise.all(
@@ -71,8 +81,14 @@ export const createTestProduct = async (
       testProduct.Author = authorId.toString();
       testProduct.Country = countryId.toString();
       testProduct.price = Math.floor(Math.random() * 100000 + 1000);
+
+      const insertQuery = await createQueryBuilder()
+        .insert()
+        .into(Product)
+        .values(testProduct)
+        .execute();
+      testProduct.id = insertQuery.raw.insertId;
       testProducts.push(testProduct);
-      createQueryBuilder().insert().into(Product).values(testProduct).execute();
     });
   }
   await Promise.all(

@@ -44,6 +44,7 @@ import { AddForeignProductFail } from '@app/common/response/swagger/domain/produ
 import { GetCountryProductReq } from './dto/GetCountryProductReq';
 import { GetCountryProductFail } from '@app/common/response/swagger/domain/product/GetCountryProductFail';
 import { GetCountryProductSuccess } from '@app/common/response/swagger/domain/product/GetCountryProductSuccess';
+import { NotFoundError } from '@app/common/response/swagger/common/error/NotFoundError';
 
 @Controller('product')
 @ApiTags('상품 API')
@@ -152,7 +153,7 @@ export class ProductController {
         productDto.toEntity(),
         userDto,
       );
-      return ResponseEntity.CREATED_WITH_DATA(
+      return ResponseEntity.OK_WITH_DATA(
         '상품 검토 및 수정에 성공했습니다.',
         data,
       );
@@ -203,6 +204,8 @@ export class ProductController {
         data,
       );
     } catch (e) {
+      if (e.status === HttpStatus.BAD_REQUEST)
+        throw ResponseEntity.BAD_REQUEST_WITH(e.message);
       throw ResponseEntity.ERROR_WITH(
         '상품 타 국가정보 추가에 실패했습니다. >> ' + e,
       );
@@ -224,7 +227,7 @@ export class ProductController {
   })
   @ApiBadRequestResponse({
     description: '입력값을 누락',
-    type: BadRequestError,
+    type: NotFoundError,
   })
   @ApiInternalServerErrorResponse({
     description: '나라별 상품 조회에 실패했습니다',

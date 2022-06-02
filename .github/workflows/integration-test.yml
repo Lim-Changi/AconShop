@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     container: node:16-alpine
     env:
-      NODE_ENV: ${{ secrets.NODE_ENV}} 
+      NODE_ENV: CI
       PORT: ${{ secrets.PORT}} 
       SWAGGER_ADMIN: ${{ secrets.SWAGGER_ADMIN}} 
       SWAGGER_PASSWORD: ${{ secrets.SWAGGER_PASSWORD}} 

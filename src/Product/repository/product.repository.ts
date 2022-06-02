@@ -19,7 +19,8 @@ export class ProductRepository extends Repository<Product> {
     const selectQuery = await createQueryBuilder()
       .select(['id', 'status', 'title', 'description', 'author_id', 'price'])
       .from(Product, 'product')
-      .where(`product.status =:status`, { status: ProductStatus.Pending });
+      .where(`product.status =:status`, { status: ProductStatus.Pending })
+      .limit(1000);
 
     return selectQuery.getRawMany();
   }
@@ -40,7 +41,10 @@ export class ProductRepository extends Repository<Product> {
       .leftJoin('product.Country', 'country')
       .where(`product.id =:productId`, { productId });
     const result = await selectQuery.getRawOne();
-    result.id = productId;
-    return result;
+    if (result) {
+      result.id = productId;
+      return result;
+    }
+    return null;
   }
 }

@@ -1,9 +1,9 @@
 import { ApiExtraModels, ApiProperty, PickType } from '@nestjs/swagger';
 import { ProductDataRes } from '../../../../../../src/Product/dto/ProductDataRes';
-import { CreatedSuccess } from '../../common/CreatedSuccess';
+import { OkSuccess } from '../../common/OkSuccess';
 
 @ApiExtraModels()
-export class ReviewProductSuccess extends PickType(CreatedSuccess, [
+export class ReviewProductSuccess extends PickType(OkSuccess, [
   'statusCode',
 ] as const) {
   @ApiProperty({

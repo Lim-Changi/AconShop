@@ -38,7 +38,6 @@ export class ConfigService {
       type: 'mysql',
       entities: [path.join(__dirname, '..', 'domain/**/*.entity.{js,ts}')],
       migrations: [path.join(__dirname, '..', 'migrations/*{.ts,.js}')],
-      cli: { migrationsDir: 'libs/entity/migrations' },
       migrationsTableName: 'migrations',
       autoLoadEntities: true,
       keepConnectionAlive: true,

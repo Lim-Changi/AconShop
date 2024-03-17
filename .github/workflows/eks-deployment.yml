@@ -48,7 +48,7 @@ jobs:
 
       - name: KubeConfig
         run: |
-          aws eks update-kubeconfig --name test-cluster --region ${{ env.AWS_REGION }}  --kubeconfig ./kubeconfig
+          aws eks update-kubeconfig --name test-cluster --region ${{ secrets.AWS_REGION }}  --kubeconfig ./kubeconfig
           echo 'KUBE_CONFIG_DATA<<EOF' >> $GITHUB_ENV
           echo $(cat ./kubeconfig | base64) >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV   
@@ -64,7 +64,7 @@ jobs:
             helm version
             kubectl version
             kubectl cluster-info 
-            helm upgrade test-cluster --install --wait --set image.tag=${{ github.sha }} --set image.repository="$ECR_REGISTRY/$ECR_REPOSITORY" --set service.port="8000" .devops/k8s/acon-k8s -n default
+            helm upgrade test-cluster --install --wait --set image.tag=${{ github.sha }} --set image.repository="$ECR_REGISTRY/ECR_REPOSITORY" --set service.port="8000" .devops/k8s/acon-k8s -n default
 
       - name: Success
         run: echo deployed successfully.

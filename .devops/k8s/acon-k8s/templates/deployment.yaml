@@ -39,17 +39,17 @@ spec:
             - name: NODE_ENV
               valueFrom:
                 secretKeyRef:
-                  name: django-app-configmap
+                  name: deploy-secrets
                   key: NODE_ENV
             - name: PORT
               valueFrom:
                 secretKeyRef:
-                  name: django-app-configmap
+                  name: deploy-secrets
                   key: PORT
             - name: SWAGGER_ADMIN
               valueFrom:
                 secretKeyRef:
-                  name: django-app-configmap
+                  name: deploy-secrets
                   key: SWAGGER_ADMIN
             - name: SWAGGER_PASSWORD
               valueFrom:

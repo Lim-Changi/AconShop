@@ -7,13 +7,9 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - name: nest-app-port
+    - port: {{ .Values.service.port }}
+      targetPort: http
       protocol: TCP
-      port: 80
-      targetPort: {{ .Values.service.port }}
-#    - port: {{ .Values.service.port }}
-#      targetPort: http
-#      protocol: TCP
-#      name: http
+      name: http
   selector:
     {{- include "acon-k8s.selectorLabels" . | nindent 4 }}

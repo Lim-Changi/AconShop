@@ -45,7 +45,26 @@ jobs:
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+      - name: kubeconfig
+        run: |
+          aws eks update-kubeconfig --name my-test-cluster --region ${{ env.AWS_REGION }}  --kubeconfig ./kubeconfig
+          echo 'KUBE_CONFIG_DATA<<EOF' >> $GITHUB_ENV
+          echo $(cat ./kubeconfig | base64) >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV   
+
+      - name: Deploy to Amazon EKS
+        uses: kubernetes/helm-action@v1
+        with:
+          kubeconfig: ${{ env.KUBE_CONFIG_DATA }}
+          chart: .devops/k8s/acon-k8s
+          release: test
+          version: 0.0.1
+          namespace: main
+          values: |
+            image:
+              repository: ${{ steps.build-image.outputs.image }}
+              tag: ${{ github.sha }}
 
       - name: Success
         run: echo deployed successfully.

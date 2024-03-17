@@ -54,7 +54,7 @@ jobs:
           echo 'EOF' >> $GITHUB_ENV   
 
       - name: EKS Deployment
-        uses: koslib/helm-eks-action@v1
+        uses: koslib/helm-eks-action@v1.28.0
         env:
           KUBE_CONFIG_DATA: ${{ env.KUBE_CONFIG_DATA }}
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}

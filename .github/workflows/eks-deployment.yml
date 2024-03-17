@@ -64,7 +64,7 @@ jobs:
             helm version
             kubectl version
             kubectl cluster-info 
-            helm upgrade test-cluster --install --wait --set image.tag=${{ github.sha }} --set image.repository="$ECR_REGISTRY/$ECR_REPOSITORY" --set service.port="8000" .devops/k8s/acon-k8s -n test
+            helm upgrade test-cluster --install --wait --set image.tag=${{ github.sha }} --set image.repository="$ECR_REGISTRY/$ECR_REPOSITORY" --set service.port="8000" .devops/k8s/acon-k8s -n default
 
       - name: Success
         run: echo deployed successfully.

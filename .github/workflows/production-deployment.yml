@@ -2,7 +2,7 @@ name: Deploy Beanstalk Docker
 on:
   push:
     branches:
-      - main
+      - main/temp_deprecated
 
 jobs:
   build:

@@ -1,0 +1,65 @@
+name: Deploy EKS
+on:
+  push:
+    branches:
+      - deploy/k8s
+
+jobs:
+  deploy-k8s:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+
+      - name: Get short SHA
+        id: slug
+        run: echo "::set-output name=sha8::$(echo ${GITHUB_SHA} | cut -c1-8)"
+
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: ${{ secrets.AWS_ECR_REPO }}
+          IMAGE_TAG: ${{ steps.slug.outputs.sha8 }}
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+      - name: KubeConfig
+        run: |
+          aws eks update-kubeconfig --name test-cluster --region ${{ env.AWS_REGION }}  --kubeconfig ./kubeconfig
+          echo 'KUBE_CONFIG_DATA<<EOF' >> $GITHUB_ENV
+          echo $(cat ./kubeconfig | base64) >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV   
+
+      - name: EKS Deployment
+        uses: koslib/helm-eks-action@v1.28.0
+        env:
+          KUBE_CONFIG_DATA: ${{ env.KUBE_CONFIG_DATA }}
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: ${{ secrets.AWS_ECR_REPO }}
+        with:
+          command: |
+            helm version
+            kubectl version
+            kubectl cluster-info 
+            helm upgrade acon-k8s --install --wait --set image.tag=${{ steps.slug.outputs.sha8 }} --set image.repository="$ECR_REGISTRY/$ECR_REPOSITORY" .devops/k8s/acon-k8s -n default
+
+      - name: Success
+        run: echo deployed successfully.
+
+# reference: https://gbengaoni.com/blog/Kubernetes-CI-CD-with-Github-Actions-and-Helm#create-github-actions-workflow
+# https://velog.io/@hsshin0602/%EC%BF%A0%EB%B2%84%EB%84%A4%ED%8B%B0%EC%8A%A4-EKS-RDS-%EC%97%B0%EB%8F%99-%EC%99%B8%EB%B6%80-IP%EC%97%90%EC%84%9C-RDS%EC%A0%91%EC%86%8D
+# https://velog.io/@lungnahahd/EKS-%EB%85%B8%EB%93%9C-%EC%99%B8%EB%B6%80-%EC%A0%91%EC%86%8DNodePort

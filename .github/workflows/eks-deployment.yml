@@ -62,3 +62,4 @@ jobs:
 
 # reference: https://gbengaoni.com/blog/Kubernetes-CI-CD-with-Github-Actions-and-Helm#create-github-actions-workflow
 # https://velog.io/@hsshin0602/%EC%BF%A0%EB%B2%84%EB%84%A4%ED%8B%B0%EC%8A%A4-EKS-RDS-%EC%97%B0%EB%8F%99-%EC%99%B8%EB%B6%80-IP%EC%97%90%EC%84%9C-RDS%EC%A0%91%EC%86%8D
+# https://velog.io/@lungnahahd/EKS-%EB%85%B8%EB%93%9C-%EC%99%B8%EB%B6%80-%EC%A0%91%EC%86%8DNodePort
